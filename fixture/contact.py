@@ -1,38 +1,13 @@
-# -*- coding: utf-8 -*-
-from selenium.webdriver.firefox.webdriver import WebDriver
-from contact import Contact
+class ContactHelper:
 
-import unittest
+    def __init__(self, app):
+        self.app = app
+        wd = app.wd
 
-def is_alert_present(wd):
-    try:
-        wd.switch_to_alert().text
-        return True
-    except:
-        return False
-
-
-class test_add_contact(unittest.TestCase):
-    def setUp(self):
-        self.wd = WebDriver()
-        self.wd.implicitly_wait(60)
-
-    def open_home_page(self, wd):
-        wd.get("http://localhost:8080/addressbook/")
-
-    def login(self, wd):
-        wd.find_element_by_name("user").click()
-        wd.find_element_by_name("user").clear()
-        wd.find_element_by_name("user").send_keys("admin")
-        wd.find_element_by_name("pass").click()
-        wd.find_element_by_name("pass").clear()
-        wd.find_element_by_name("pass").send_keys("secret")
-        wd.find_element_by_xpath("//form[@id='LoginForm']/input[3]").click()
-
-    def open_contact_page(self, wd):
+    def general_data(self, Contact):
+        wd = self.app.wd
+        # open page with groups
         wd.find_element_by_link_text("add new").click()
-
-    def general_data(self, wd, Contact):
         # filling name
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
@@ -116,26 +91,3 @@ class test_add_contact(unittest.TestCase):
         wd.find_element_by_name("notes").send_keys(Contact.notes)
         # create contact
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
-
-    def logout(self, wd):
-        wd.find_element_by_link_text("Logout").click()
-    
-    def test_test_add_contact(self):
-        wd = self.wd
-        self.open_home_page(wd)
-        self.login(wd)
-        self.open_contact_page(wd)
-        self.general_data(wd, Contact(firstname="qwe", middlename="qwe", lastname="qwe", nickname="qwe",
-                                      title="qwe",     company="qwe",    address="qwe",  home="123",
-                                      mobile="123",    work="123",       fax="123",      email2="qwe",
-                                      email3="qwe",    homepage="qwe",   bday=1,         bmonth=1,
-                                      byear=1999,      aday=2,           amonth=2,       ayear=2000,
-                                      address2="qwe",  phone2="123",     notes="qwe"))
-        self.logout(wd)
-
-    def tearDown(self):
-        self.wd.quit()
-
-
-if __name__ == '__main__':
-    unittest.main()

@@ -5,6 +5,8 @@ class GroupHelper:
 
     def create(self, Group):
         wd = self.app.wd
+        # open page with groups
+        wd.find_element_by_link_text("groups").click()
         # init group creation
         wd.find_element_by_name("new").click()
         # fill group form
