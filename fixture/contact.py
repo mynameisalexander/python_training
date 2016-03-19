@@ -97,7 +97,7 @@ class ContactHelper:
         # select first contact
         wd.find_element_by_name("selected[]").click()
         # init contact update
-        wd.find_element_by_tag_name("Edit").click()
+        wd.find_element_by_xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img").click()
         # update name
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
