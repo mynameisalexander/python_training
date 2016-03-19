@@ -5,3 +5,4 @@ class Manager:
         self.group = group(app)
         self.contact = contact(app)
 
+# это будет удалено
