@@ -6,7 +6,7 @@ class ContactHelper:
 
     def general_data(self, Contact):
         wd = self.app.wd
-        # open page with groups
+        # init contact creation
         wd.find_element_by_link_text("add new").click()
         # filling name
         wd.find_element_by_name("firstname").click()

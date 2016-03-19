@@ -14,9 +14,9 @@ class Application:
         self.session = SessionHelper(self)
         self.group = GroupHelper(self)
 
-    def open_group_page(self):
+    def open_home_page(self):
         wd = self.wd
-        wd.get("http://localhost:8080/addressbook/group.php")
+        wd.get("http://localhost:8080/addressbook/")
 
     def destroy(self):
         self.wd.quit()
