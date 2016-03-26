@@ -3,8 +3,10 @@ from model.group import Group
 
 
 def test_modify_group_name(app):
-    app.group.modify_first_group(Group(name="123"))
+    if app.group.count() == 0:
+        app.group.create(Group(name='test'))
+    app.group.modify_first_group(Group(name="update"))
 
 
 def test_modify_group_header(app):
-    app.group.modify_first_group(Group(header="321"))
+    app.group.modify_first_group(Group(header="update"))
