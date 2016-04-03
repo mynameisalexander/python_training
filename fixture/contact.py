@@ -11,52 +11,61 @@ class ContactHelper:
         if not (wd.current_url.endswith("/addressbook/")):
             wd.find_element_by_link_text("home").click()
 
-    def create(self, Contact):
+    def create(self, contact):
         wd = self.app.wd
         self.open_home_page()
         # init contact creation
         wd.find_element_by_link_text("add new").click()
-        self.fill_group_form(Contact)
+        self.fill_group_form(contact)
         # create contact
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
         contact_cache = None
 
-    def modify_first_contact(self, Contact):
+    """
+    1. раскомментировать нижеследующий кусок кода
+    2. очистить список контактов и создать там 2 новых, через test_add_contact.py
+    3. запустить test_modify_group.py
+    """
+
+   # def modify_first_contact(self, Contact):
+   #     self.modify_contact_by_index(Contact, 0)
+
+    def modify_contact_by_index(self, new_contact_data, index):
         wd = self.app.wd
         self.open_home_page()
-        self.select_first_contact()
+        self.select_contact_by_index(index)
         # init contact update
         wd.find_element_by_xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img").click()
-        self.fill_group_form(Contact)
+        self.fill_group_form(new_contact_data)
         # update contact
         wd.find_element_by_name("update").click()
         contact_cache = None
 
-    def fill_group_form(self, Contact):
+    def fill_group_form(self, contact):
         wd = self.app.wd
-        self.change_field_value("firstname", Contact.firstname)
-        self.change_field_value("middlename", Contact.middlename)
-        self.change_field_value("lastname", Contact.lastname)
-        self.change_field_value("nickname", Contact.nickname)
-        self.change_field_value("title", Contact.title)
-        self.change_field_value("company", Contact.company)
-        self.change_field_value("address", Contact.address)
-        self.change_field_value("home", Contact.home)
-        self.change_field_value("mobile", Contact.mobile)
-        self.change_field_value("work", Contact.work)
-        self.change_field_value("fax", Contact.fax)
-        self.change_field_value("email2", Contact.email2)
-        self.change_field_value("email3", Contact.email3)
-        self.change_field_value("homepage", Contact.homepage)
-        self.change_field_value("bday", Contact.bday)
-        self.change_field_value("bmonth", Contact.bmonth)
-        self.change_field_value("byear", Contact.byear)
-        self.change_field_value("aday", Contact.aday)
-        self.change_field_value("amonth", Contact.amonth)
-        self.change_field_value("ayear", Contact.ayear)
-        self.change_field_value("address2", Contact.address2)
-        self.change_field_value("phone2", Contact.phone2)
-        self.change_field_value("notes", Contact.notes)
+        self.change_field_value("firstname", contact.firstname)
+        self.change_field_value("middlename", contact.middlename)
+        self.change_field_value("lastname", contact.lastname)
+        self.change_field_value("nickname", contact.nickname)
+        self.change_field_value("title", contact.title)
+        self.change_field_value("company", contact.company)
+        self.change_field_value("address", contact.address)
+        self.change_field_value("home", contact.home)
+        self.change_field_value("mobile", contact.mobile)
+        self.change_field_value("work", contact.work)
+        self.change_field_value("fax", contact.fax)
+        self.change_field_value("email2", contact.email2)
+        self.change_field_value("email3", contact.email3)
+        self.change_field_value("homepage", contact.homepage)
+        self.change_field_value("bday", contact.bday)
+        self.change_field_value("bmonth", contact.bmonth)
+        self.change_field_value("byear", contact.byear)
+        self.change_field_value("aday", contact.aday)
+        self.change_field_value("amonth", contact.amonth)
+        self.change_field_value("ayear", contact.ayear)
+        self.change_field_value("address2", contact.address2)
+        self.change_field_value("phone2", contact.phone2)
+        self.change_field_value("notes", contact.notes)
 
     def change_field_value(self, text, field_name):
         wd = self.app.wd
@@ -79,17 +88,20 @@ class ContactHelper:
                 wd.find_element_by_name(text).send_keys(field_name)
 
     def delete_first_contact(self):
+        self.delete_contact_by_index(0)
+
+    def delete_contact_by_index(self, index):
         wd = self.app.wd
         self.open_home_page()
-        self.select_first_contact()
+        self.select_contact_by_index(index)
         # submit deletion
         wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
         wd.switch_to_alert().accept()
         contact_cache = None
 
-    def select_first_contact(self):
+    def select_contact_by_index(self, index):
         wd = self.app.wd
-        wd.find_element_by_name("selected[]").click()
+        wd.find_elements_by_name("selected[]")[index].click()
 
     def count(self):
         wd = self.app.wd
