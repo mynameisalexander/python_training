@@ -19,27 +19,21 @@ class ContactHelper:
         self.fill_group_form(contact)
         # create contact
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
-        contact_cache = None
+        self.contact_cache = None
 
-    """
-    1. раскомментировать нижеследующий кусок кода
-    2. очистить список контактов и создать там 2 новых, через test_add_contact.py
-    3. запустить test_modify_group.py
-    """
-
-   # def modify_first_contact(self, Contact):
-   #     self.modify_contact_by_index(Contact, 0)
+    def modify_first_contact(self, new_contact_data):
+        self.modify_contact_by_index(new_contact_data, 0)
 
     def modify_contact_by_index(self, new_contact_data, index):
         wd = self.app.wd
         self.open_home_page()
         self.select_contact_by_index(index)
-        # init contact update
-        wd.find_element_by_xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img").click()
+        # open certain page
+        wd.get('http://localhost:8080/addressbook/edit.php?id='+str(new_contact_data.id))
         self.fill_group_form(new_contact_data)
         # update contact
         wd.find_element_by_name("update").click()
-        contact_cache = None
+        self.contact_cache = None
 
     def fill_group_form(self, contact):
         wd = self.app.wd
@@ -97,7 +91,7 @@ class ContactHelper:
         # submit deletion
         wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
         wd.switch_to_alert().accept()
-        contact_cache = None
+        self.contact_cache = None
 
     def select_contact_by_index(self, index):
         wd = self.app.wd
@@ -114,10 +108,10 @@ class ContactHelper:
         if self.contact_cache is None:
             wd = self.app.wd
             self.open_home_page()
-            contact_cache = []
+            self.contact_cache = []
             for element in wd.find_elements_by_name("entry"):
                 text = element.text.split()
                 id = element.find_element_by_name("selected[]").get_attribute("value")
-                contact_cache.append(Contact(firstname=text[1], lastname=text[0], id=id))
-        return list(contact_cache)
+                self.contact_cache.append(Contact(firstname=text[1], lastname=text[0], id=id))
+        return list(self.contact_cache)
 
