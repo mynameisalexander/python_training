@@ -22,13 +22,12 @@ class ContactHelper:
         self.contact_cache = None
 
     def modify_first_contact(self, new_contact_data):
-        self.modify_contact_by_index(new_contact_data, 0)
+        self.modify_contact_by_id(new_contact_data, 0)
 
-    def modify_contact_by_index(self, new_contact_data, index):
+    def modify_contact_by_id(self, new_contact_data):
         wd = self.app.wd
         self.open_home_page()
-        self.select_contact_by_index(index)
-        # open certain page
+        # open page by id
         wd.get('http://localhost:8080/addressbook/edit.php?id='+str(new_contact_data.id))
         self.fill_group_form(new_contact_data)
         # update contact

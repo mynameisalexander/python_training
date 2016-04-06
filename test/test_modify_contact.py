@@ -12,7 +12,7 @@ def test_modify_some_contact(app):
                       title="update",     company="update",    address="update",  home="321",
                       mobile="321",       work="321",          fax="321",         email2="update")
     contact.id = old_contacts[index].id
-    app.contact.modify_contact_by_index(contact, index)
+    app.contact.modify_contact_by_id(contact)
     assert len(old_contacts) == app.contact.count()
     new_contacts = app.contact.get_contact_list()
     old_contacts[index] = contact
