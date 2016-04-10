@@ -66,17 +66,17 @@ class ContactHelper:
         wd = self.app.wd
         if field_name is not None:
             if text == "bday":
-                wd.find_element_by_xpath("//div[@id='content']/form/select[1]//option[" + str(field_name + 2) + "]").is_selected()
-                wd.find_element_by_xpath("//div[@id='content']/form/select[1]//option[" + str(field_name + 2) + "]").click()
+                wd.find_element_by_xpath("//div[@id='content']/form/select[1]//option[" + str(field_name) + "]").is_selected()
+                wd.find_element_by_xpath("//div[@id='content']/form/select[1]//option[" + str(field_name) + "]").click()
             elif text == "bmonth":
-                wd.find_element_by_xpath("//div[@id='content']/form/select[2]//option[" + str(field_name + 1) + "]").is_selected()
-                wd.find_element_by_xpath("//div[@id='content']/form/select[2]//option[" + str(field_name + 1) + "]").click()
+                wd.find_element_by_xpath("//div[@id='content']/form/select[2]//option[" + str(field_name) + "]").is_selected()
+                wd.find_element_by_xpath("//div[@id='content']/form/select[2]//option[" + str(field_name) + "]").click()
             elif text == "aday":
-                wd.find_element_by_xpath("//div[@id='content']/form/select[3]//option[" + str(field_name + 2) + "]").is_selected()
-                wd.find_element_by_xpath("//div[@id='content']/form/select[3]//option[" + str(field_name + 2) + "]").click()
+                wd.find_element_by_xpath("//div[@id='content']/form/select[3]//option[" + str(field_name) + "]").is_selected()
+                wd.find_element_by_xpath("//div[@id='content']/form/select[3]//option[" + str(field_name) + "]").click()
             elif text == "amonth":
-                wd.find_element_by_xpath("//div[@id='content']/form/select[4]//option[" + str(field_name + 1) + "]").is_selected()
-                wd.find_element_by_xpath("//div[@id='content']/form/select[4]//option[" + str(field_name + 1) + "]").click()
+                wd.find_element_by_xpath("//div[@id='content']/form/select[4]//option[" + str(field_name) + "]").is_selected()
+                wd.find_element_by_xpath("//div[@id='content']/form/select[4]//option[" + str(field_name) + "]").click()
             else:
                 wd.find_element_by_name(text).click()
                 wd.find_element_by_name(text).clear()
