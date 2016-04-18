@@ -27,7 +27,7 @@ class ContactHelper:
 
     def modify_contact_by_id(self, new_contact_data):
         wd = self.app.wd
-        self.open_home_page()
+        # self.open_home_page() - эта строка лишняя?
         # open page by id
         wd.get('http://localhost:8080/addressbook/edit.php?id='+str(new_contact_data.id))
         self.fill_group_form(new_contact_data)
