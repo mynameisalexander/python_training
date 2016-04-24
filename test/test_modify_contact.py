@@ -1,22 +1,28 @@
 # -*- coding: utf-8 -*-
 from model.contact import Contact
-from random import randrange
+import random
 
 
-def test_modify_some_contact(app):
-    if app.contact.count() == 0:
+def test_modify_some_contact(app, db, check_ui):
+    if len(db.get_contact_list()) == 0:
         app.contact.create(Contact(firstname="test"))
-    old_contacts = app.contact.get_contact_list()
-    index = randrange(len(old_contacts))
+    old_contacts = db.get_contact_list()
+    random_contact = random.choice(old_contacts)
     contact = Contact(firstname="update", middlename="update", lastname="update", nickname="update",
                       title="update",     company="update",    address="update",  homephone="321",
                       mobilephone="321",  workphone="321",     fax="321",         email="update")
-    contact.id = old_contacts[index].id
+    contact.id = random_contact.id
     app.contact.modify_contact_by_id(contact)
-    assert len(old_contacts) == app.contact.count()
-    new_contacts = app.contact.get_contact_list()
-    old_contacts[index] = contact
-    assert sorted(old_contacts, key=Contact.id_or_max) == sorted(new_contacts, key=Contact.id_or_max)
+    new_contacts = db.get_contact_list()
+    assert len(old_contacts) == len(new_contacts)
+    i = 0
+    for x in old_contacts:
+        if x.id == random_contact.id:
+            old_contacts[i] = contact
+        i += 1
+    assert old_contacts == new_contacts
+    if check_ui:
+        assert sorted(new_contacts, key=Contact.id_or_max) == sorted(app.contact.get_contact_list(), key=Contact.id_or_max)
 
 
 #def test_modify_contact_bottom(app):
