@@ -1,4 +1,5 @@
 from model.contact import Contact
+from random import randrange
 import re
 
 
@@ -102,6 +103,45 @@ class ContactHelper:
         wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
         wd.switch_to_alert().accept()
         self.contact_cache = None
+
+    def remove_contact_from_group(self, id, group_number):
+        wd = self.app.wd
+        self.open_home_page()
+        self.select_group_by_rand_number(group_number, "remove")
+        self.check_add_contact()
+        x = 1+3
+
+    def check_add_contact(self):
+        wd = self.app.wd
+        if wd.find_elements_by_name("selected[]") == 0:
+            return None
+        else:
+            return len(wd.find_elements_by_name("selected[]"))
+
+    def add_contact_to_group(self, id, group_number):
+        wd = self.app.wd
+        self.open_home_page()
+        self.select_contact_by_id(id)
+        #rand_number = randrange(int((lambda x: (x-2)/2)(len(wd.find_elements_by_tag_name("option")))))
+        self.select_group_by_rand_number(group_number, "addition")
+        wd.find_element_by_name("add").click()
+        self.contact_cache = None
+
+    def select_group_by_rand_number(self, group_number, mode):
+        wd = self.app.wd
+        if mode == "remove":
+            wd.find_element_by_xpath("//form[@id='right']/select//option[{0}]".format(group_number)).is_selected()
+            wd.find_element_by_xpath("//form[@id='right']/select//option[{0}]".format(group_number)).click()
+            count = 0
+            while wd.current_url.endswith("/?group="):
+                count += 1
+                wd.find_element_by_xpath("//form[@id='right']/select//option[{0}]".format(group_number+count)).is_selected()
+                wd.find_element_by_xpath("//form[@id='right']/select//option[{0}]".format(group_number+count)).click()
+        elif mode == "addition":
+            wd.find_element_by_xpath("//div[@class='right']/select//option[{0}]".format(group_number)).is_selected()
+            wd.find_element_by_xpath("//div[@class='right']/select//option[{0}]".format(group_number)).click()
+
+
 
     def select_contact_by_id(self, id):
         wd = self.app.wd
